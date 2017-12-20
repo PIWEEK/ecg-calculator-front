@@ -4,6 +4,10 @@ import Landing from '@/components/Landing'
 import Login from '@/components/Login'
 import Organization from '@/components/Organization'
 import Assessment from '@/components/Assessment'
+import AssessmentInstructions from '@/components/AssessmentInstructions'
+import AssessmentFacts from '@/components/AssessmentFacts'
+import AssessmentAspects from '@/components/AssessmentAspects'
+import AssessmentResults from '@/components/AssessmentResults'
 import Matrix from '@/components/Matrix'
 
 Vue.use(Router)
@@ -27,8 +31,29 @@ export default new Router({
     },
     {
       path: '/assessment',
-      name: 'Assessment',
-      component: Assessment
+      component: Assessment,
+      children: [
+        {
+          path: '',
+          name: 'AssessmentInstructions',
+          component: AssessmentInstructions
+        },
+        {
+          path: 'facts/:code',
+          name: 'AssessmentFacts',
+          component: AssessmentFacts
+        },
+        {
+          path: 'aspects/:code',
+          name: 'AssessmentAspects',
+          component: AssessmentAspects
+        },
+        {
+          path: 'results',
+          name: 'AssessmentResults',
+          component: AssessmentResults
+        }
+      ]
     },
     {
       path: '/matrix',

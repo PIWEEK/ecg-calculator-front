@@ -3,27 +3,49 @@
     <div class="section">
       <span class="section-title">Datos de la organización</span>
       <ul class="nav nav-pills nav-justified">
-        <li role="presentation" class="active"><router-link to="/assessment">A</router-link></li>
-        <li role="presentation"><router-link to="/assessment">B</router-link></li>
-        <li role="presentation"><router-link to="/assessment">C</router-link></li>
-        <li role="presentation"><router-link to="/assessment">D</router-link></li>
-        <li role="presentation"><router-link to="/assessment">E</router-link></li>
+        <router-link tag="li" :to="{name: 'AssessmentFacts', params: {code: 'A'}}" active-class="active" role="presentation">
+          <a>A</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentFacts', params: {code: 'B'}}" active-class="active" role="presentation">
+          <a>B</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentFacts', params: {code: 'C'}}" active-class="active" role="presentation">
+          <a>C</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentFacts', params: {code: 'D'}}" active-class="active" role="presentation">
+          <a>D</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentFacts', params: {code: 'E'}}" active-class="active" role="presentation">
+          <a>E</a>
+        </router-link>
       </ul>
     </div>
     <div class="section">
       <span class="section-title">Aspectos</span>
       <ul class="nav nav-pills nav-justified">
-        <li role="presentation"><router-link to="/assessment">A</router-link></li>
-        <li role="presentation"><router-link to="/assessment">B</router-link></li>
-        <li role="presentation"><router-link to="/assessment">C</router-link></li>
-        <li role="presentation"><router-link to="/assessment">D</router-link></li>
-        <li role="presentation"><router-link to="/assessment">E</router-link></li>
+        <router-link tag="li" :to="{name: 'AssessmentAspects', params: {code: 'A'}}" active-class="active" role="presentation">
+          <a>A</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentAspects', params: {code: 'B'}}" active-class="active" role="presentation">
+          <a>B</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentAspects', params: {code: 'C'}}" active-class="active" role="presentation">
+          <a>C</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentAspects', params: {code: 'D'}}" active-class="active" role="presentation">
+          <a>D</a>
+        </router-link>
+        <router-link tag="li" :to="{name: 'AssessmentAspects', params: {code: 'E'}}" active-class="active" role="presentation">
+          <a>E</a>
+        </router-link>
       </ul>
     </div>
     <div class="section final">
       <span class="section-title">Resultado</span>
       <ul class="nav nav-pills nav-justified">
-        <li role="presentation"><router-link to="/assessment">Ver</router-link></li>
+        <router-link tag="li" :to="{name: 'AssessmentResults'}" active-class="active" role="presentation">
+          <a>Ver</a>
+        </router-link>
       </ul>
     </div>
   </div>
