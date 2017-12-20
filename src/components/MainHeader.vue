@@ -18,8 +18,8 @@
           <li v-if="section === 'assessment'" class="active"><router-link to="/">Evaluación <span class="sr-only">(actual)</span></router-link></li>
           <li v-else><router-link to="/assessment">Evaluación</router-link></li>
 
-          <li v-if="section === 'results'" class="active"><router-link to="/">Resultado <span class="sr-only">(actual)</span></router-link></li>
-          <li v-else><router-link to="/results">Resultado</router-link></li>
+          <li v-if="section === 'matrix'" class="active"><router-link to="/">Matriz <span class="sr-only">(actual)</span></router-link></li>
+          <li v-else><router-link to="/matrix">Matriz</router-link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">

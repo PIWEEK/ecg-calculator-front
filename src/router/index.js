@@ -4,7 +4,7 @@ import Landing from '@/components/Landing'
 import Login from '@/components/Login'
 import Organization from '@/components/Organization'
 import Assessment from '@/components/Assessment'
-import Results from '@/components/Results'
+import Matrix from '@/components/Matrix'
 
 Vue.use(Router)
 
@@ -31,9 +31,9 @@ export default new Router({
       component: Assessment
     },
     {
-      path: '/results',
-      name: 'Results',
-      component: Results
+      path: '/matrix',
+      name: 'Matrix',
+      component: Matrix
     }
   ]
 })
