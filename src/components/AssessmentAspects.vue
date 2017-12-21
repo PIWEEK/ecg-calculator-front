@@ -47,8 +47,34 @@
       </b-card>
     </div>
     <div class="actions">
-      <router-link class="previous" role="button" :to="{name: 'AssessmentFacts', params: {slug: 'E'}}">Volver atrás</router-link>
-      <router-link class="btn btn-primary next" role="button" :to="{name: 'AssessmentAspects', params: {slug: 'B'}}">Siguiente</router-link>
+      <router-link
+        v-if="!previousStakeholder"
+        class="previous"
+        role="button"
+        :to="{name: 'AssessmentFacts', params: {slug: lastStakeholder.slug}}">
+        Volver atrás
+      </router-link>
+      <router-link
+        v-if="previousStakeholder"
+        class="previous"
+        role="button"
+        :to="{name: 'AssessmentAspects', params: {slug: previousStakeholder.slug}}">
+        Volver atrás
+      </router-link>
+      <router-link
+        v-if="nextStakeholder"
+        class="btn btn-primary next"
+        role="button"
+        :to="{name: 'AssessmentAspects', params: {slug: nextStakeholder.slug}}">
+        Siguiente
+      </router-link>
+      <router-link
+        v-if="!nextStakeholder"
+        class="btn btn-primary next"
+        role="button"
+        :to="{name: 'AssessmentResults'}">
+        Siguiente
+      </router-link>
     </div>
   </div>
 </template>
@@ -66,7 +92,11 @@ export default {
   computed: {
     ...mapGetters({
       stakeholder: 'getCurrentStakeholder',
-      topics: 'getCurrentTopics'
+      topics: 'getCurrentTopics',
+      firstStakeholder: 'getFirstStakeholder',
+      lastStakeholder: 'getLastStakeholder',
+      previousStakeholder: 'getPreviousStakeholder',
+      nextStakeholder: 'getNextStakeholder'
     })
   },
   created: function () {

@@ -20,7 +20,41 @@ const getters = {
   getTopics: (state) => state.topics,
   getCurrentStakeholder: (state) => state.currentStakeholder,
   getCurrentForm: (state) => state.currentForm,
-  getCurrentTopics: (state) => state.currentTopics
+  getCurrentTopics: (state) => state.currentTopics,
+
+  getFirstStakeholder: (state) => {
+    if (state.stakeholders) {
+      return state.stakeholders[0]
+    }
+    return null
+  },
+
+  getLastStakeholder: (state) => {
+    if (state.stakeholders) {
+      return state.stakeholders[state.stakeholders.length - 1]
+    }
+    return null
+  },
+
+  getPreviousStakeholder: (state) => {
+    if (state.currentStakeholder) {
+      const index = state.stakeholders.findIndex((it) => it.id === state.currentStakeholder.id)
+      if ((index - 1) >= 0) {
+        return state.stakeholders[index - 1]
+      }
+    }
+    return null
+  },
+
+  getNextStakeholder: (state) => {
+    if (state.currentStakeholder) {
+      const index = state.stakeholders.findIndex((it) => it.id === state.currentStakeholder.id)
+      if ((index + 1) < state.stakeholders.length) {
+        return state.stakeholders[index + 1]
+      }
+    }
+    return null
+  }
 }
 
 const mutations = {

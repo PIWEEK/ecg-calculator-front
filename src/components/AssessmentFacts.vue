@@ -38,8 +38,34 @@
       </div>
     </form>
     <div class="actions">
-      <router-link class="previous" role="button" :to="{name: 'AssessmentInstructions'}">Volver atrás</router-link>
-      <router-link class="btn btn-primary next" role="button" :to="{name: 'AssessmentFacts', params: {slug: 'B'}}">Siguiente</router-link>
+      <router-link
+        v-if="!previousStakeholder"
+        class="previous"
+        role="button"
+        :to="{name: 'AssessmentInstructions'}">
+        Volver atrás
+      </router-link>
+      <router-link
+        v-if="previousStakeholder"
+        class="previous"
+        role="button"
+        :to="{name: 'AssessmentFacts', params: {slug: previousStakeholder.slug}}">
+        Volver atrás
+      </router-link>
+      <router-link
+        v-if="nextStakeholder"
+        class="btn btn-primary next"
+        role="button"
+        :to="{name: 'AssessmentFacts', params: {slug: nextStakeholder.slug}}">
+        Siguiente
+      </router-link>
+      <router-link
+        v-if="!nextStakeholder"
+        class="btn btn-primary next"
+        role="button"
+        :to="{name: 'AssessmentAspects', params: {slug: firstStakeholder.slug}}">
+        Siguiente
+      </router-link>
     </div>
   </div>
 </template>
@@ -52,7 +78,11 @@ export default {
   computed: {
     ...mapGetters({
       stakeholder: 'getCurrentStakeholder',
-      form: 'getCurrentForm'
+      form: 'getCurrentForm',
+      firstStakeholder: 'getFirstStakeholder',
+      lastStakeholder: 'getLastStakeholder',
+      previousStakeholder: 'getPreviousStakeholder',
+      nextStakeholder: 'getNextStakeholder'
     })
   },
   created: function () {
