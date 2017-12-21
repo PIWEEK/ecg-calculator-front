@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: 'main-header',
+  name: 'assessment-navigator',
   props: ['section', 'code'],
   data () {
     return {}

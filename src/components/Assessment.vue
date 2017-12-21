@@ -24,6 +24,9 @@ export default {
   components: {
     MainHeader,
     AssessmentNavigator
+  },
+  created: function () {
+    this.$store.dispatch('retrieveAssessment')
   }
 }
 </script>
