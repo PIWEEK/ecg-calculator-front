@@ -104,6 +104,10 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  color: #4d9899;
+}
+
 .actions {
   margin: 2rem 0;
 }
@@ -113,5 +117,6 @@ export default {
 }
 .actions .next {
   float: right;
+  margin-bottom: 3rem;
 }
 </style>

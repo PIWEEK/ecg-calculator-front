@@ -1,39 +1,11 @@
 <template>
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse" aria-expanded="false">
-          <span class="sr-only">Abrir navegación</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <router-link :to="{name: 'Landing'}" class="navbar-brand">Inicio</router-link>
-      </div>
-      <div class="collapse navbar-collapse" id="main-navbar-collapse">
-        <ul class="nav navbar-nav">
-          <router-link tag="li" :to="{name: 'Organization'}" active-class="active">
-            <a>Organización</a><span v-if="section === 'organization'" class="sr-only"> (actual)</span>
-          </router-link>
-          <router-link tag="li" :to="{name: 'AssessmentInstructions'}" active-class="active">
-            <a>Evaluación</a><span v-if="section === 'assessment'" class="sr-only"> (actual)</span>
-          </router-link>
-          <router-link tag="li" :to="{name: 'Matrix'}" active-class="active">
-            <a>Matriz</a><span v-if="section === 'matrix'" class="sr-only"> (actual)</span>
-          </router-link>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi usuario<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><router-link to="#">Editar datos</router-link></li>
-              <li><router-link to="#">Salir</router-link></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+  <div class="header">
+    <router-link :to="{name: 'Landing'}" class="logo"><img src="../assets/ebc-mini.png" /></router-link>
+    <div class="user">
+      <span class="glyphicon glyphicon-user"></span>
+      <router-link to="#">Mi cuenta</router-link>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>
@@ -44,4 +16,31 @@ export default {
 </script>
 
 <style scoped>
+  .header {
+    align-items: center;
+    display: flex;
+    min-height: 100px;
+    padding: 0 1rem;
+  }
+
+  .logo {
+    flex-grow: 0;
+  }
+
+  .logo img {
+    max-height: 70px;
+  }
+
+  .user {
+    color: #4d9899;
+    display: flex;
+    flex-grow: 1;
+    font-size: 150%;
+    justify-content: flex-end;
+    text-transform: uppercase;
+  }
+
+  .user .glyphicon {
+    margin-right: 1rem;
+  }
 </style>

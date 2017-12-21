@@ -55,16 +55,33 @@ export default {
 }
 
 .section {
-  background-color: #eee;
+  border: 1px solid #4d9899;
+  border-radius: 8px;
   text-align: center;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
 }
 
 .section:not(:first-child) {
   margin-left: 1rem;
 }
 
+.section-title {
+  color: #4d9899;
+  margin: 0.5rem 0;
+}
+
 .final {
   flex-shrink: 2;
+}
+
+.nav-pills {
+  margin-top: 1rem;
+}
+
+.nav-pills li a {
+  border: 1px solid #4d9899;
+  border-radius: 8px;
+  margin: 0.5rem 1rem;
+  padding: 0;
 }
 </style>

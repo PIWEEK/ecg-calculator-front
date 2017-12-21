@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class='container'>
     <div class="row">
-      <main-header section="assessment"></main-header>
+      <main-header></main-header>
+    </div>
+    <div class="row">
+      <main-navbar section="assessment"></main-navbar>
     </div>
     <div class="row">
       <assessment-navigator></assessment-navigator>
@@ -14,12 +17,14 @@
 
 <script>
 import MainHeader from '@/components/MainHeader'
+import MainNavbar from '@/components/MainNavbar'
 import AssessmentNavigator from '@/components/AssessmentNavigator'
 
 export default {
   name: 'assessment',
   components: {
     MainHeader,
+    MainNavbar,
     AssessmentNavigator
   },
   created: function () {

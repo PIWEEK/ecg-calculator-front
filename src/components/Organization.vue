@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class='container'>
     <div class="row">
-      <main-header section="organization"></main-header>
+      <main-header></main-header>
+    </div>
+    <div class="row">
+      <main-navbar section="organization"></main-navbar>
     </div>
     <div class="row">
       <h1>Organization</h1>
@@ -11,11 +14,13 @@
 
 <script>
 import MainHeader from '@/components/MainHeader'
+import MainNavbar from '@/components/MainNavbar'
 
 export default {
   name: 'organization',
   components: {
-    MainHeader
+    MainHeader,
+    MainNavbar
   }
 }
 </script>

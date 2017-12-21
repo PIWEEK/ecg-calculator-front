@@ -4,7 +4,7 @@
     <div role="tablist">
       <b-card no-body class="mb-1" v-for="topic in topics" :key="topic.id">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-btn block href="#" v-b-toggle="topic.code" variant="info">{{ topic.code }} - {{ topic.name }}</b-btn>
+          <b-btn block href="#" v-b-toggle="topic.code" variant="primary">{{ topic.code }} - {{ topic.name }}</b-btn>
         </b-card-header>
         <b-collapse :id="topic.code" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
@@ -135,6 +135,10 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  color: #4d9899;
+}
+
 .card {
   margin-top: 3rem;
 }
@@ -149,7 +153,7 @@ export default {
 }
 
 .toggle-info {
-  background-color: #337ab7;
+  background-color: #4d9899;
   border-radius: 10px;
   color: #fff;
   font-size: 75%;
@@ -161,10 +165,11 @@ export default {
 .aspect-info {
   background-color: #eee;
   padding: 1rem;
+  margin-bottom: 2rem;
 }
 
 .aspect-title.negative {
-  color: red;
+  color: #8a6d3b;
 }
 
 textarea {
@@ -180,5 +185,6 @@ textarea {
 }
 .actions .next {
   float: right;
+  margin-bottom: 3rem;
 }
 </style>
