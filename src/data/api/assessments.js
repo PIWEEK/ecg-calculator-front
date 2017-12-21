@@ -22,8 +22,12 @@ export default {
     return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/forms/${formId}`)
   },
 
-  listTopics: function (assessmentId) {
-    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/topics`)
+  listTopics: function (assessmentId, stakeholderId = null) {
+    let url = config.API_URL + `/assessments/${assessmentId}/topics`
+    if (stakeholderId) {
+      url = url + `?stakeholder=${stakeholderId}`
+    }
+    return http.fetch('GET', url)
   },
 
   retrieveTopic: function (assessmentId, topicId) {

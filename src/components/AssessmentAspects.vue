@@ -1,188 +1,47 @@
 <template>
-  <div>
-    <h1>A - Proveedores</h1>
+  <div v-if="topics">
+    <h1>{{ stakeholder.code }} - {{ stakeholder.name }}</h1>
     <div role="tablist">
-      <b-card no-body class="mb-1">
+      <b-card no-body class="mb-1" v-for="topic in topics" :key="topic.id">
         <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-btn block href="#" v-b-toggle.accordion1 variant="info">A1 - Dignidad humana en la cadena de suministro</b-btn>
+          <b-btn block href="#" v-b-toggle="topic.code" variant="info">{{ topic.code }} - {{ topic.name }}</b-btn>
         </b-card-header>
-        <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+        <b-collapse :id="topic.code" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <p class="aspect-title">
-              A1.1 - Condiciones de trabajo e impacto social en la cadena de suministro
-              <button class="btn toggle-info" v-on:click="toggleInfo('a11')">?</button>
-            </p>
-            <p class="info" v-if="openInfo['a11']">
-              Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.
-              Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Donec rutrum congue leo eget malesuada. Curabitur aliquet quam id dui posuere blandit.
-              Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Cras ultricies ligula sed magna dictum porta. Vivamus suscipit tortor eget felis porttitor volutpat.
-            </p>
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="weighting" class="col-sm-2 control-label">Ponderación</label>
-                <div class="col-sm-3">
-                  <select class="form-control" id="weighting">
-                    <option>Muy alta</option>
-                    <option>Alta</option>
-                    <option selected>Media</option>
-                    <option>Baja</option>
-                    <option>No aplica</option>
-                  </select>
+            <div class="aspect" v-for="aspect in topic.aspects" :key="aspect.id">
+              <p class="aspect-title" :class="{negative: aspect.isNegative}">
+                {{ aspect.code }} - {{ aspect.title }}
+                <button class="btn toggle-info" v-on:click="toggleInfo(aspect.code)">?</button>
+              </p>
+              <p class="aspect-info" v-if="openInfo[aspect.code]">{{ aspect.fullDescription }}</p>
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label :for="aspect.slug + '_weighting'" class="col-sm-2 control-label">Ponderación</label>
+                  <div class="col-sm-3">
+                    <select class="form-control" :id="aspect.slug + '_weighting'">
+                      <option>Muy alta</option>
+                      <option>Alta</option>
+                      <option selected>Media</option>
+                      <option>Baja</option>
+                      <option>No aplica</option>
+                    </select>
+                  </div>
+                  <label :for="aspect.slug + '_level'" class="col-sm-2 control-label">Nivel (1-10)</label>
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" :id="aspect.slug + '_level'" placeholder="0">
+                  </div>
                 </div>
-                <label for="level" class="col-sm-2 control-label">Nivel (1-10)</label>
-                <div class="col-sm-3">
-                  <input type="number" class="form-control" id="level" placeholder="0">
+                <div class="form-group">
+                  <label :for="aspect.slug + '_current_status'" class="col-sm-2 control-label">Estado actual</label>
+                  <div class="col-sm-8">
+                    <textarea class="form-control"
+                      :id="aspect.slug + '_current_status'"
+                      rows="3"
+                      placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="current-status" class="col-sm-2 control-label">Estado actual</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" id="current-status" rows="3" placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
-                </div>
-              </div>
-            </form>
-            <p class="aspect-title negative">
-              A1.2 - Aspecto negativo: vulneración de la dignidad humana en la cadena de suministro
-              <button class="btn toggle-info" v-on:click="toggleInfo('a12')">?</button>
-            </p>
-            <p class="info" v-if="openInfo['a12']">
-              Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.
-              Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Donec rutrum congue leo eget malesuada. Curabitur aliquet quam id dui posuere blandit.
-              Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Cras ultricies ligula sed magna dictum porta. Vivamus suscipit tortor eget felis porttitor volutpat.
-            </p>
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="weighting" class="col-sm-2 control-label">Ponderación</label>
-                <div class="col-sm-3">
-                  <select class="form-control" id="weighting" disabled>
-                    <option>Muy alta</option>
-                    <option>Alta</option>
-                    <option>Media</option>
-                    <option>Baja</option>
-                    <option selected>No aplica</option>
-                  </select>
-                </div>
-                <label for="level" class="col-sm-2 control-label">Nivel (0 / -100)</label>
-                <div class="col-sm-3">
-                  <input type="number" class="form-control" id="level" placeholder="0">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="current-status" class="col-sm-2 control-label">Estado actual</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" id="current-status" rows="3" placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
-                </div>
-              </div>
-            </form>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
-      <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-btn block href="#" v-b-toggle.accordion2 variant="info">A2 - Justicia y solidaridad en la cadena de suministro</b-btn>
-        </b-card-header>
-        <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <p class="aspect-title">
-              A2.1 - Condiciones de trabajo e impacto social en la cadena de suministro
-              <button class="btn toggle-info" v-on:click="toggleInfo('a11')">?</button>
-            </p>
-            <p class="info" v-if="openInfo['a11']">
-              Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.
-              Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Donec rutrum congue leo eget malesuada. Curabitur aliquet quam id dui posuere blandit.
-              Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Cras ultricies ligula sed magna dictum porta. Vivamus suscipit tortor eget felis porttitor volutpat.
-            </p>
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="weighting" class="col-sm-2 control-label">Ponderación</label>
-                <div class="col-sm-3">
-                  <select class="form-control" id="weighting">
-                    <option>Muy alta</option>
-                    <option>Alta</option>
-                    <option selected>Media</option>
-                    <option>Baja</option>
-                    <option>No aplica</option>
-                  </select>
-                </div>
-                <label for="level" class="col-sm-2 control-label">Nivel (1-10)</label>
-                <div class="col-sm-3">
-                  <input type="number" class="form-control" id="level" placeholder="0">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="current-status" class="col-sm-2 control-label">Estado actual</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" id="current-status" rows="3" placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
-                </div>
-              </div>
-            </form>
-            <p class="aspect-title negative">
-              A2.2 - Aspecto negativo: vulneración de la dignidad humana en la cadena de suministro
-              <button class="btn toggle-info" v-on:click="toggleInfo('a12')">?</button>
-            </p>
-            <p class="info" v-if="openInfo['a12']">
-              Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.
-              Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Donec rutrum congue leo eget malesuada. Curabitur aliquet quam id dui posuere blandit.
-              Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vivamus suscipit tortor eget felis porttitor volutpat.
-              Cras ultricies ligula sed magna dictum porta. Vivamus suscipit tortor eget felis porttitor volutpat.
-            </p>
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="weighting" class="col-sm-2 control-label">Ponderación</label>
-                <div class="col-sm-3">
-                  <select class="form-control" id="weighting" disabled>
-                    <option>Muy alta</option>
-                    <option>Alta</option>
-                    <option>Media</option>
-                    <option>Baja</option>
-                    <option selected>No aplica</option>
-                  </select>
-                </div>
-                <label for="level" class="col-sm-2 control-label">Nivel (0 / -100)</label>
-                <div class="col-sm-3">
-                  <input type="number" class="form-control" id="level" placeholder="0">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="current-status" class="col-sm-2 control-label">Estado actual</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" id="current-status" rows="3" placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
-                </div>
-              </div>
-            </form>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
-      <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-btn block href="#" v-b-toggle.accordion3 variant="info">A3 - Sostenibilidad medioambiental en la cadena de suministro</b-btn>
-        </b-card-header>
-        <b-collapse id="accordion3" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <p class="card-text">
-              Lorem ipsum qué bonito
-            </p>
-            </p>
-          </b-card-body>
-        </b-collapse>
-      </b-card>
-      <b-card no-body class="mb-1">
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-btn block href="#" v-b-toggle.accordion4 variant="info">A4 - Transparencia y participación democrática en la cadena de suministro</b-btn>
-        </b-card-header>
-        <b-collapse id="accordion4" accordion="my-accordion" role="tabpanel">
-          <b-card-body>
-            <p class="card-text">
-              Lorem ipsum qué bonito
-            </p>
-            </p>
+              </form>
+            </div>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -195,19 +54,51 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'assessmentFacts',
+  name: 'assessmentAspects',
   data () {
     return {
-      openInfo: {
-        'a11': false,
-        'a12': false
+      openInfo: {}
+    }
+  },
+  computed: {
+    ...mapGetters({
+      stakeholder: 'getCurrentStakeholder',
+      topics: 'getCurrentTopics'
+    })
+  },
+  created: function () {
+    setTimeout(() => { // TODO: find a way to synchronize this with the retrieveAssessment in Assessment.vue
+      this.retrieveTopic()
+    }, 1500)
+  },
+  watch: {
+    '$route.params.slug' (to, from) {
+      this.retrieveTopic()
+    },
+    'topics' (to, from) {
+      if (to) {
+        this.openInfo = to.reduce(
+          (codes, topic) => {
+            let topicCodes = topic.aspects.reduce(
+              (topicCodes, aspect) => { topicCodes[aspect.code] = false; return topicCodes },
+              {}
+            )
+            return {...codes, ...topicCodes}
+          }, {}
+        )
       }
     }
   },
   methods: {
-    toggleInfo: function (slug) {
-      this.openInfo[slug] = !this.openInfo[slug]
+    retrieveTopic () {
+      this.$store.dispatch('retrieveTopic', this.$route.params.slug)
+    },
+
+    toggleInfo: function (code) {
+      this.openInfo[code] = !this.openInfo[code]
     }
   }
 }
@@ -237,7 +128,7 @@ export default {
   width: 3rem;
 }
 
-.info {
+.aspect-info {
   background-color: #eee;
   padding: 1rem;
 }

@@ -10,7 +10,7 @@ const state = {
   topics: null,
   currentStakeholder: null,
   currentForm: null,
-  currentTopic: null
+  currentTopics: null
 }
 
 const getters = {
@@ -20,7 +20,7 @@ const getters = {
   getTopics: (state) => state.topics,
   getCurrentStakeholder: (state) => state.currentStakeholder,
   getCurrentForm: (state) => state.currentForm,
-  getCurrentTopic: (state) => state.currentTopic
+  getCurrentTopics: (state) => state.currentTopics
 }
 
 const mutations = {
@@ -42,8 +42,8 @@ const mutations = {
   [types.SET_CURRENT_FORM] (state, form) {
     state.currentForm = form
   },
-  [types.SET_CURRENT_TOPIC] (state, topic) {
-    state.currentTopic = topic
+  [types.SET_CURRENT_TOPICS] (state, topics) {
+    state.currentTopics = topics
   }
 }
 
@@ -60,14 +60,28 @@ const actions = {
   },
 
   async retrieveForm ({commit, state}, stakeholderSlug) {
-    const stakeholder = state.stakeholders.find((s) => s.slug === stakeholderSlug)
+    const stakeholder = state.stakeholders.find((it) => it.slug === stakeholderSlug)
     if (stakeholder) {
       commit(types.SET_CURRENT_STAKEHOLDER, stakeholder)
-      const form = state.forms.find((f) => f.stakeholderId === stakeholder.id)
+      const form = state.forms.find((it) => it.stakeholderId === stakeholder.id)
       if (form) {
         const fullForm = await assessments.retrieveForm(state.assessment.id, form.id)
         commit(types.SET_CURRENT_FORM, fullForm)
       }
+    }
+  },
+
+  async retrieveTopic ({commit, state}, stakeholderSlug) {
+    const stakeholder = state.stakeholders.find((it) => it.slug === stakeholderSlug)
+    if (stakeholder) {
+      commit(types.SET_CURRENT_STAKEHOLDER, stakeholder)
+      const topics = state.topics.filter((it) => it.stakeholderId === stakeholder.id)
+      const fullTopics = []
+      for (let topic of topics) {
+        const fullTopic = await assessments.retrieveTopic(state.assessment.id, topic.id)
+        fullTopics.push(fullTopic)
+      }
+      commit(types.SET_CURRENT_TOPICS, fullTopics)
     }
   }
 }

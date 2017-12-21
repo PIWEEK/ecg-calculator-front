@@ -1,6 +1,6 @@
 <template>
   <div v-if="form">
-    <h1>{{ stakeholder.code }} - {{ form.name }}</h1>
+    <h1 class="col-sm-offset-1">{{ stakeholder.code }} - {{ form.name }}</h1>
     <form class="form-horizontal">
       <div class="form-group" v-for="question in form.questions">
         <label :for="question.slug" class="col-sm-3 col-sm-offset-1 control-label">{{ question.title }}</label>
@@ -58,7 +58,7 @@ export default {
   created: function () {
     setTimeout(() => { // TODO: find a way to synchronize this with the retrieveAssessment in Assessment.vue
       this.retrieveForm()
-    }, 1000)
+    }, 1500)
   },
   watch: {
     '$route.params.slug' (to, from) {
