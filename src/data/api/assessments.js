@@ -1,30 +1,33 @@
 import config from '../../config'
+import http from './http'
 
 export default {
   listAssessments: function () {
-    return _httpRequest('GET', config.API_URL + '/assessments')
+    return http.fetch('GET', config.API_URL + `/assessments`)
   },
 
   retrieveAssessment: function (assessmentId) {
-    return _httpRequest('GET', config.API_URL + '/assessments/' + assessmentId.toString())
-  }
-}
+    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}`)
+  },
 
-function _httpRequest (method, url) {
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      method
-    }).then((response) => {
-      if (!response.ok) {
-        reject('api error', response.status, response.statusText)
-      } else {
-        response.json()
-          .then((data) => resolve(data))
-      }
-    })
-    .catch((error) => {
-      reject(error)
-    })
-  })
+  listStakeholders: function (assessmentId) {
+    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/stakeholders`)
+  },
+
+  listForms: function (assessmentId) {
+    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/forms`)
+  },
+
+  retrieveForm: function (assessmentId, formId) {
+    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/forms/${formId}`)
+  },
+
+  listTopics: function (assessmentId) {
+    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/topics`)
+  },
+
+  retrieveTopic: function (assessmentId, topicId) {
+    return http.fetch('GET', config.API_URL + `/assessments/${assessmentId}/topics/${topicId}`)
+  }
 }
 

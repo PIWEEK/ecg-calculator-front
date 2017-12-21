@@ -39,12 +39,12 @@ export default new Router({
           component: AssessmentInstructions
         },
         {
-          path: 'facts/:code',
+          path: 'facts/:slug',
           name: 'AssessmentFacts',
           component: AssessmentFacts
         },
         {
-          path: 'aspects/:code',
+          path: 'aspects/:slug',
           name: 'AssessmentAspects',
           component: AssessmentAspects
         },

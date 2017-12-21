@@ -188,8 +188,8 @@
       </b-card>
     </div>
     <div class="actions">
-      <router-link class="previous" role="button" :to="{name: 'AssessmentFacts', params: {code: 'E'}}">Volver atrás</router-link>
-      <router-link class="btn btn-primary next" role="button" :to="{name: 'AssessmentAspects', params: {code: 'B'}}">Siguiente</router-link>
+      <router-link class="previous" role="button" :to="{name: 'AssessmentFacts', params: {slug: 'E'}}">Volver atrás</router-link>
+      <router-link class="btn btn-primary next" role="button" :to="{name: 'AssessmentAspects', params: {slug: 'B'}}">Siguiente</router-link>
     </div>
   </div>
 </template>

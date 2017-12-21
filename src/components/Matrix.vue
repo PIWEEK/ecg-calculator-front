@@ -14,9 +14,6 @@ import MainHeader from '@/components/MainHeader'
 
 export default {
   name: 'matrix',
-  data () {
-    return {}
-  },
   components: {
     MainHeader
   }

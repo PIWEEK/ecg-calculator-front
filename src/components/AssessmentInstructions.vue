@@ -15,9 +15,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'assessmentInstructions',
-  data () {
-    return {}
-  },
   computed: {
     ...mapGetters({
       assessment: 'getAssessment'

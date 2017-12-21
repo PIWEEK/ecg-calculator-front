@@ -39,10 +39,7 @@
 <script>
 export default {
   name: 'main-header',
-  props: ['section'],
-  data () {
-    return {}
-  }
+  props: ['section']
 }
 </script>
 

@@ -8,10 +8,7 @@
 
 <script>
 export default {
-  name: 'assessmentResults',
-  data () {
-    return {}
-  }
+  name: 'assessmentResults'
 }
 </script>
 
