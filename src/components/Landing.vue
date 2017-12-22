@@ -12,7 +12,7 @@
       <b-button to="/login" size="lg" variant="primary">Empezar</b-button>
     </div>
     <div class="matrix">
-      <h2>La Matriz del Bien Común 4.1</h2>
+      <h2>La Matriz del Bien Común 5.0</h2>
       <img src="../assets/matrix.png" />
       <p>Y aquí otro texto dando más detalles de cómo va la matriz</p>
       <p>Donec sollicitudin molestie malesuada. Donec rutrum congue leo eget malesuada.
@@ -70,6 +70,7 @@ h2 {
 
 .matrix img {
   width: 800px;
+  border: 2px solid #47888a;
 }
 
 .matrix p {
