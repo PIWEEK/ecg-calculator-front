@@ -53,6 +53,7 @@
         <td class="th-column">E4 Transparencia y participación democrática del entorno social<span class="value"><span class="number">{{ Math.round(Math.random() * 100) }}</span></span></td>
       </tr>
     </table>
+    <p class="total-result"><span>Resultado final: 800</span></p>
     <p>Y la explicación de la matriz resultante</p>
     <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit
     amet aliquam vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
@@ -116,5 +117,18 @@ td .number {
   border: 1px solid #4d9899;
   padding: 0.5rem;
   width: 3rem;
+}
+
+.total-result {
+  text-align: right;
+  margin-right: 3rem;
+}
+
+.total-result span {
+  background-color: #8a6d3b;
+  color: #fff;
+  padding: 1rem;
+  font-size: 200%;
+  font-weight: bold;
 }
 </style>
