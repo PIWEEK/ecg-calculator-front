@@ -1,5 +1,8 @@
 <template>
-  <div v-if="form">
+  <div v-if="!form" class="loading">
+    <img src="../assets/loading.gif" />
+  </div>
+  <div v-else>
     <h1 class="col-sm-offset-1">{{ stakeholder.code }} - {{ form.name }}</h1>
     <form class="form-horizontal">
       <div class="form-group" v-for="question in form.questions">
@@ -110,6 +113,17 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.loading img {
+  margin: 3rem;
+  height: 50px;
+  width: 50px;
+}
+
 h1 {
   color: #4d9899;
 }

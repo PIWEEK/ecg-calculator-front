@@ -1,5 +1,8 @@
 <template>
-  <div v-if="topics">
+  <div v-if="!topics" class="loading">
+    <img src="../assets/loading.gif" />
+  </div>
+  <div v-else>
     <h1>{{ stakeholder.code }} - {{ stakeholder.name }}</h1>
     <div role="tablist">
       <b-card no-body class="mb-1" v-for="topic in topics" :key="topic.id">
@@ -14,33 +17,41 @@
                 <button class="btn toggle-info" v-on:click="toggleInfo(aspect.code)">?</button>
               </p>
               <p class="aspect-info" v-if="openInfo[aspect.code]">{{ aspect.fullDescription }}</p>
-              <form class="form-horizontal">
-                <div class="form-group">
-                  <label :for="aspect.slug + '_weighting'" class="col-sm-2 control-label">Ponderación</label>
-                  <div class="col-sm-3">
-                    <select class="form-control" :id="aspect.slug + '_weighting'">
-                      <option>Muy alta</option>
-                      <option>Alta</option>
-                      <option selected>Media</option>
-                      <option>Baja</option>
-                      <option>No aplica</option>
-                    </select>
-                  </div>
-                  <label :for="aspect.slug + '_level'" class="col-sm-2 control-label">Nivel (1-10)</label>
-                  <div class="col-sm-3">
-                    <input type="number" class="form-control" :id="aspect.slug + '_level'" placeholder="0">
-                  </div>
+              <div class="form-container">
+                <div class="aspect-score">
+                  <div class="score-label">Puntuación:</div>
+                  <div class="score">40</div>
+                  <div class="score-label">Máximo:</div>
+                  <div class="score">95</div>
                 </div>
-                <div class="form-group">
-                  <label :for="aspect.slug + '_current_status'" class="col-sm-2 control-label">Estado actual</label>
-                  <div class="col-sm-8">
-                    <textarea class="form-control"
-                      :id="aspect.slug + '_current_status'"
-                      rows="3"
-                      placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label :for="aspect.slug + '_weighting'" class="col-sm-2 control-label">Ponderación</label>
+                    <div class="col-sm-3">
+                      <select class="form-control" :id="aspect.slug + '_weighting'">
+                        <option>Muy alta</option>
+                        <option>Alta</option>
+                        <option selected>Media</option>
+                        <option>Baja</option>
+                        <option>No aplica</option>
+                      </select>
+                    </div>
+                    <label :for="aspect.slug + '_level'" class="col-sm-2 control-label">Nivel (1-10)</label>
+                    <div class="col-sm-3">
+                      <input type="number" class="form-control" :id="aspect.slug + '_level'" placeholder="0">
+                    </div>
                   </div>
-                </div>
-              </form>
+                  <div class="form-group">
+                    <label :for="aspect.slug + '_current_status'" class="col-sm-2 control-label">Estado actual</label>
+                    <div class="col-sm-8">
+                      <textarea class="form-control"
+                        :id="aspect.slug + '_current_status'"
+                        rows="3"
+                        placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </b-card-body>
         </b-collapse>
@@ -135,6 +146,17 @@ export default {
 </script>
 
 <style scoped>
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.loading img {
+  margin: 3rem;
+  height: 50px;
+  width: 50px;
+}
+
 h1 {
   color: #4d9899;
 }
@@ -170,6 +192,25 @@ h1 {
 
 .aspect-title.negative {
   color: #8a6d3b;
+}
+
+.form-container {
+  position: relative;
+}
+
+.aspect-score {
+  background-color: #e9f2f2ff;
+  margin-right: 4rem;
+  padding: 1rem 1rem 0 1rem;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+}
+
+.aspect-score .score {
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 textarea {
