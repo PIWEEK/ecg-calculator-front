@@ -1,5 +1,13 @@
 <template>
   <div class="assessment-navigator" v-if="stakeholders">
+    <div class="section compact">
+      <span class="section-title">Instrucciones</span>
+      <ul class="nav nav-pills nav-justified">
+        <router-link tag="li" :to="{name: 'AssessmentInstructions'}" active-class="active" exact role="presentation">
+          <a>Ver</a>
+        </router-link>
+      </ul>
+    </div>
     <div class="section">
       <span class="section-title">Datos de la organización</span>
       <ul class="nav nav-pills nav-justified">
@@ -24,7 +32,7 @@
         </router-link>
       </ul>
     </div>
-    <div class="section final">
+    <div class="section compact">
       <span class="section-title">Resultado</span>
       <ul class="nav nav-pills nav-justified">
         <router-link tag="li" :to="{name: 'AssessmentResults'}" active-class="active" role="presentation">
@@ -70,7 +78,7 @@ export default {
   margin: 0.5rem 0;
 }
 
-.final {
+.compact {
   flex-shrink: 2;
 }
 
