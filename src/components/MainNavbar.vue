@@ -38,4 +38,12 @@ export default {
   background-color: #e9f2f2ff;
   font-size: 125%;
 }
+
+li.active a {
+  background-color: #4d9899;
+  border-radius: 5px;
+  color: #fff;
+  margin: 0.5rem;
+  padding: 1rem;
+}
 </style>
