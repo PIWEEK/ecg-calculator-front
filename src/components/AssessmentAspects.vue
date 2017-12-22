@@ -17,28 +17,35 @@
                 <button class="btn toggle-info" v-on:click="toggleInfo(aspect.code)">?</button>
               </p>
               <p class="aspect-info" v-if="openInfo[aspect.code]">{{ aspect.fullDescription }}</p>
-              <div class="form-container">
-                <div class="aspect-score">
+              <div class="form-container" v-if="answers[aspect.code]">
+                <div class="aspect-score" v-if="answers[aspect.code].score !== 0" :class="{negative: aspect.isNegative}">
                   <div class="score-label">Puntuación:</div>
-                  <div class="score">40</div>
+                  <div class="score">{{ answers[aspect.code].score }}</div>
                   <div class="score-label">Máximo:</div>
-                  <div class="score">95</div>
+                  <div class="score">{{ answers[aspect.code].maxScore }}</div>
                 </div>
                 <form class="form-horizontal">
-                  <div class="form-group">
+                  <div class="form-group" v-bind:class="{ 'has-error': answers[aspect.code].error }">
                     <label :for="aspect.slug + '_weighting'" class="col-sm-2 control-label">Ponderación</label>
                     <div class="col-sm-3">
-                      <select class="form-control" :id="aspect.slug + '_weighting'">
-                        <option>Muy alta</option>
-                        <option>Alta</option>
-                        <option selected>Media</option>
-                        <option>Baja</option>
-                        <option>No aplica</option>
+                      <select class="form-control" v-bind:disabled="aspect.isNegative"
+                        :id="aspect.slug + '_weighting'"
+                        v-model.number="answers[aspect.code].weighting"
+                        v-on:change="valueChanged(topic, aspect)">
+                        <option value="2">Muy alta</option>
+                        <option value="1">Alta</option>
+                        <option value="0" selected>Media</option>
+                        <option value="-1">Baja</option>
+                        <option value="-2">No aplica</option>
                       </select>
                     </div>
-                    <label :for="aspect.slug + '_level'" class="col-sm-2 control-label">Nivel (1-10)</label>
+                    <label v-if="!aspect.isNegative" :for="aspect.slug + '_level'" class="col-sm-2 control-label">Nivel (1-10)</label>
+                    <label v-else :for="aspect.slug + '_level'" class="col-sm-2 control-label">Nivel (0 / -100)</label>
                     <div class="col-sm-3">
-                      <input type="number" class="form-control" :id="aspect.slug + '_level'" placeholder="0">
+                      <input type="number" class="form-control"
+                        :id="aspect.slug + '_level'"
+                        v-model.number="answers[aspect.code].level"
+                        v-on:change="valueChanged(topic, aspect)">
                     </div>
                   </div>
                   <div class="form-group">
@@ -47,7 +54,8 @@
                       <textarea class="form-control"
                         :id="aspect.slug + '_current_status'"
                         rows="3"
-                        placeholder="Describe brevemente la situación actual de tu organización en este aspecto" />
+                        placeholder="Describe brevemente la situación actual de tu organización en este aspecto"
+                        v-model="answers[aspect.code].currentStatus" />
                     </div>
                   </div>
                 </form>
@@ -97,7 +105,8 @@ export default {
   name: 'assessmentAspects',
   data () {
     return {
-      openInfo: {}
+      openInfo: {},
+      answers: {}
     }
   },
   computed: {
@@ -121,13 +130,24 @@ export default {
     },
     'topics' (to, from) {
       if (to) {
-        this.openInfo = to.reduce(
-          (codes, topic) => {
-            let topicCodes = topic.aspects.reduce(
-              (topicCodes, aspect) => { topicCodes[aspect.code] = false; return topicCodes },
-              {}
-            )
-            return {...codes, ...topicCodes}
+        this.openInfo = this.flattenAspects(to).reduce(
+          (codes, aspect) => {
+            codes[aspect.code] = false
+            return codes
+          }, {}
+        )
+
+        this.answers = this.flattenAspects(to).reduce(
+          (answers, aspect) => {
+            answers[aspect.code] = {
+              weighting: 0,
+              level: 0,
+              currentStatus: '',
+              score: 0,
+              maxScore: 0,
+              error: false
+            }
+            return answers
           }, {}
         )
       }
@@ -140,6 +160,52 @@ export default {
 
     toggleInfo: function (code) {
       this.openInfo[code] = !this.openInfo[code]
+    },
+
+    flattenAspects: function (topics) {
+      return topics.reduce(
+        (topicAspects, topic) => { return topicAspects.concat(topic.aspects) },
+        []
+      )
+    },
+
+    valueChanged: function (topic, aspect) {
+      const answer = this.answers[aspect.code]
+
+      if (!aspect.isNegative) {
+        if (answer.level < 0 || answer.level > 10) {
+          answer.maxScore = 0
+          answer.score = 0
+          answer.error = true
+        } else {
+          const topicMax = 200
+          const validAspects = topic.aspects.filter(
+            (aspect) => !aspect.isNegative
+          )
+          const totalWeighting = validAspects.reduce(
+            (w, aspect) => w + this.answers[aspect.code].weighting + 2,
+            0
+          )
+          answer.error = false
+          for (aspect of validAspects) {
+            const iterAnswer = this.answers[aspect.code]
+            if (!iterAnswer.error) {
+              iterAnswer.maxScore = Math.round(topicMax * (iterAnswer.weighting + 2) / totalWeighting)
+              iterAnswer.score = Math.round(iterAnswer.level * iterAnswer.maxScore / 10)
+            }
+          }
+        }
+      } else {
+        if (answer.level !== 0 && answer.level !== -100) {
+          answer.maxScore = 0
+          answer.score = 0
+          answer.error = true
+        } else {
+          answer.maxScore = 0
+          answer.score = answer.level
+          answer.error = false
+        }
+      }
     }
   }
 }
@@ -174,6 +240,10 @@ h1 {
   margin: 2rem 0 1rem 0;
 }
 
+.aspect-title.negative {
+  color: #8a6d3b;
+}
+
 .toggle-info {
   background-color: #4d9899;
   border-radius: 10px;
@@ -190,10 +260,6 @@ h1 {
   margin-bottom: 2rem;
 }
 
-.aspect-title.negative {
-  color: #8a6d3b;
-}
-
 .form-container {
   position: relative;
 }
@@ -206,6 +272,11 @@ h1 {
   right: 0;
   text-align: center;
   top: 0;
+}
+
+.aspect-score.negative {
+  background-color: #8a6d3b;
+  color: #fff;
 }
 
 .aspect-score .score {
