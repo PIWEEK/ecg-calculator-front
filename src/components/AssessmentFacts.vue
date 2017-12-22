@@ -6,6 +6,12 @@
         <label :for="question.slug" class="col-sm-3 col-sm-offset-1 control-label">{{ question.title }}</label>
         <div class="col-sm-6">
           <input
+            v-if="question.dataType === 'string'"
+            type="text"
+            class="form-control"
+            :id="question.slug"
+            value="">
+          <input
             v-if="question.dataType === 'integer'"
             type="number"
             class="form-control"
