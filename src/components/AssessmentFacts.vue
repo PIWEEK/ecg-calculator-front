@@ -5,46 +5,37 @@
   <div v-else>
     <h1 class="col-sm-offset-1">{{ stakeholder.code }} - {{ form.name }}</h1>
     <form class="form-horizontal">
-      <div class="form-group" v-for="question in form.questions">
-        <label :for="question.slug" class="col-sm-3 col-sm-offset-1 control-label">{{ question.title }}</label>
-        <div class="col-sm-6">
-          <input
-            v-if="question.dataType === 'string'"
-            type="text"
-            class="form-control"
-            :id="question.slug"
-            value="">
-          <input
-            v-if="question.dataType === 'integer'"
-            type="number"
-            class="form-control"
-            min="0"
-            :id="question.slug"
-            value="0">
-          <input
-            v-if="question.dataType === 'currency'"
-            type="number"
-            class="form-control"
-            min="0"
-            step="0.01"
-            :id="question.slug"
-            value="0">
-          <textarea
-            v-if="question.dataType === 'text'"
-            class="form-control"
-            :id="question.slug"
-            :rows="question.options.rows || 3"
-            :placeholder="question.options.placeholder || ''" />
-          <select
-            v-if="question.dataType === 'select'"
-            class="form-control"
-            :id="question.slug">
-            <option v-for="choice in question.options.choices" value="choice[0]">
-              {{ choice[1] }}
-            </option>
-          </select>
+      <template v-for="item in questionsAndSubForms">
+
+        <div class="form-group" v-if="item.thisIsA === 'question'">
+          <label :for="item.slug" class="col-sm-3 col-sm-offset-1 control-label">{{ item.title }}</label>
+          <div class="col-sm-6">
+            <assessment-facts-field :question="item" />
+          </div>
         </div>
-      </div>
+
+        <div class="sub-form" v-if="item.thisIsA === 'subForm'">
+          <div class="col-sm-11 sub-form-caption">{{ item.caption }}</div>
+          <div class="sub-form-label"
+            :class="'col-sm-' + subQuestion.columns" v-for="subQuestion in item.subQuestions" :key="subQuestion.id">
+            {{ subQuestion.title }}
+          </div>
+          <div class="sub-form-instance" v-for="(instance, index) in formInstances[item.slug]">
+            <div class="form-group">
+              <div :class="'col-sm-' + subQuestion.columns" v-for="subQuestion in item.subQuestions" :key="subQuestion.id">
+                <label :for="subQuestion.slug" class="sr-only control-label">{{ subQuestion.title }}</label>
+                <assessment-facts-field :question="subQuestion" />
+              </div>
+              <button
+                v-if="formInstances[item.slug].length > 1"
+                class="btn btn-link col-sm-1 glyphicon glyphicon-trash"
+                v-on:click="removeInstance(item.slug, index)"></button>
+            </div>
+          </div>
+          <button class="btn btn-link" v-on:click="addInstance(item.slug)">Añadir otro</button>
+        </div>
+
+      </template>
     </form>
     <div class="actions">
       <router-link
@@ -81,10 +72,32 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import AssessmentFactsField from '@/components/AssessmentFactsField'
 
 export default {
   name: 'assessmentFacts',
+  components: {
+    AssessmentFactsField
+  },
+  data: function () {
+    return {
+      formInstances: {}
+    }
+  },
   computed: {
+    questionsAndSubForms: function () {
+      let combined = []
+      for (let q of this.form.questions) {
+        q.thisIsA = 'question'
+        combined[q.order - 1] = q
+      }
+      for (let subForm of this.form.subForms) {
+        subForm.thisIsA = 'subForm'
+        combined[subForm.order - 1] = subForm
+        this.formInstances[subForm.slug] = [{}]
+      }
+      return combined
+    },
     ...mapGetters({
       stakeholder: 'getCurrentStakeholder',
       form: 'getCurrentForm',
@@ -107,6 +120,14 @@ export default {
   methods: {
     retrieveForm () {
       this.$store.dispatch('retrieveForm', this.$route.params.slug)
+    },
+    addInstance (slug) {
+      this.formInstances[slug].push({})
+      this.$forceUpdate()
+    },
+    removeInstance (slug, index) {
+      this.formInstances[slug].splice(index, 1)
+      this.$forceUpdate()
     }
   }
 }
@@ -126,6 +147,20 @@ export default {
 
 h1 {
   color: #4d9899;
+}
+
+.sub-form .form-group {
+  margin: 0.5rem 0 0;
+}
+
+.sub-form-caption {
+  font-weight: bold;
+  padding: 0 0 0 15px;
+}
+
+.sub-form-label {
+  font-weight: bold;
+  margin-top: 0.5rem;
 }
 
 .actions {
