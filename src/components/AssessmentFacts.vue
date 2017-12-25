@@ -3,7 +3,11 @@
     <img src="../assets/loading.gif" />
   </div>
   <div v-else>
-    <h1 class="col-sm-offset-1">{{ stakeholder.code }} - {{ form.name }}</h1>
+    <h1 class="col-sm-offset-1">
+      {{ stakeholder.code }} - {{ form.name }}
+      <button class="btn toggle-info" v-on:click="toggleInfo(stakeholder.code)">?</button>
+    </h1>
+    <div class="fact-info" v-if="openInfo" v-html="stakeholder.description"></div>
     <form class="form-horizontal">
       <template v-for="item in questionsAndSubForms">
 
@@ -81,7 +85,8 @@ export default {
   },
   data: function () {
     return {
-      formInstances: {}
+      formInstances: {},
+      openInfo: false
     }
   },
   computed: {
@@ -115,11 +120,15 @@ export default {
   watch: {
     '$route.params.slug' (to, from) {
       this.retrieveForm()
+      this.openInfo = false
     }
   },
   methods: {
     retrieveForm () {
       this.$store.dispatch('retrieveForm', this.$route.params.slug)
+    },
+    toggleInfo: function (code) {
+      this.openInfo = !this.openInfo
     },
     addInstance (slug) {
       this.formInstances[slug].push({})
@@ -147,6 +156,22 @@ export default {
 
 h1 {
   color: #4d9899;
+}
+
+.toggle-info {
+  background-color: #4d9899;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 40%;
+  font-weight: bold;
+  padding: 0.5rem;
+  width: 3rem;
+}
+
+.fact-info {
+  background-color: #eee;
+  padding: 1rem;
+  margin-bottom: 2rem;
 }
 
 .sub-form .form-group {
