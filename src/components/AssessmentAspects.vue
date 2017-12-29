@@ -363,7 +363,7 @@ button.notes {
 }
 
 .modal-buttons button:not(.active) {
-  filter: grayscale(100%);
+  filter: grayscale(100%) brightness(150%);
 }
 
 .form-container {
