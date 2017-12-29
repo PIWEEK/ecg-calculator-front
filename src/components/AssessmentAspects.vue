@@ -16,7 +16,47 @@
                 {{ aspect.code }} - {{ aspect.title }}
                 <button class="btn toggle-info" v-on:click="toggleInfo(aspect.code)">?</button>
               </p>
-              <p class="aspect-info" v-if="openInfo[aspect.code]">{{ aspect.fullDescription }}</p>
+              <div class="modal" tabindex="-1" role="dialog" v-bind:class="{show: openModal[aspect.code]}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button
+                        type="button"
+                        class="close"
+                        aria-label="Close"
+                        v-on:click="closeModal(aspect.code)">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h3 class="modal-title">{{ aspect.code }} - {{ aspect.title }}</h3>
+                    </div>
+                    <div class="modal-body">
+                      <div class="modal-buttons">
+                        <button class="btn btn-link valorative" :class="{active: openModal[aspect.code] === 'valorative'}" type="button" v-on:click="showModal(aspect.code, 'valorative')" title="Preguntas valorativas"></button>
+                        <button class="btn btn-link indicators" :class="{active: openModal[aspect.code] === 'indicators'}" type="button" v-on:click="showModal(aspect.code, 'indicators')" title="Indicadores obligatorios"></button>
+                        <button class="btn btn-link levels" :class="{active: openModal[aspect.code] === 'levels'}" type="button" v-on:click="showModal(aspect.code, 'levels')" title="Niveles de valoración"></button>
+                        <button class="btn btn-link notes" :class="{active: openModal[aspect.code] === 'notes'}" type="button" v-on:click="showModal(aspect.code, 'notes')" title="Notas aclaratorias"></button>
+                      </div>
+                      <h4 v-if="openModal[aspect.code] === 'valorative'">Preguntas valorativas</h4>
+                      <h4 v-if="openModal[aspect.code] === 'indicators'">Indicadores obligatorios</h4>
+                      <h4 v-if="openModal[aspect.code] === 'levels'">Niveles de valoración</h4>
+                      <h4 v-if="openModal[aspect.code] === 'notes'">Notas aclaratorias</h4>
+                      <div v-if="openModal[aspect.code] === 'valorative'" v-html="aspect.valorativeQuestions"></div>
+                      <div v-if="openModal[aspect.code] === 'indicators'" v-html="aspect.mandatoryIndicators"></div>
+                      <div v-if="openModal[aspect.code] === 'levels'" v-html="aspect.evaluationLevels"></div>
+                      <div v-if="openModal[aspect.code] === 'notes'" v-html="aspect.explanatoryNotes"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="aspect-info" v-if="openInfo[aspect.code]">
+                  <div v-html="aspect.quickDescription"></div>
+                  <div class="more-info-buttons">
+                    <button class="btn btn-link valorative" type="button" v-on:click="showModal(aspect.code, 'valorative')" title="Preguntas valorativas"></button>
+                    <button class="btn btn-link indicators" type="button" v-on:click="showModal(aspect.code, 'indicators')" title="Indicadores obligatorios"></button>
+                    <button class="btn btn-link levels" type="button" v-on:click="showModal(aspect.code, 'levels')" title="Niveles de valoración"></button>
+                    <button class="btn btn-link notes" type="button" v-on:click="showModal(aspect.code, 'notes')" title="Notas aclaratorias"></button>
+                  </div>
+              </div>
               <div class="form-container" v-if="answers[aspect.code]">
                 <div class="aspect-score" v-if="answers[aspect.code].score !== 0" :class="{negative: aspect.isNegative}">
                   <div class="score-label">Puntuación:</div>
@@ -106,6 +146,7 @@ export default {
   data () {
     return {
       openInfo: {},
+      openModal: {},
       answers: {}
     }
   },
@@ -137,6 +178,13 @@ export default {
           }, {}
         )
 
+        this.openModal = this.flattenAspects(to).reduce(
+          (codes, aspect) => {
+            codes[aspect.code] = null
+            return codes
+          }, {}
+        )
+
         this.answers = this.flattenAspects(to).reduce(
           (answers, aspect) => {
             answers[aspect.code] = {
@@ -160,6 +208,14 @@ export default {
 
     toggleInfo: function (code) {
       this.openInfo[code] = !this.openInfo[code]
+    },
+
+    showModal (code, type) {
+      this.openModal[code] = type
+    },
+
+    closeModal (code) {
+      this.openModal[code] = null
     },
 
     flattenAspects: function (topics) {
@@ -223,7 +279,7 @@ export default {
   width: 50px;
 }
 
-h1 {
+h1, h2, h3, h4, h5 {
   color: #4d9899;
 }
 
@@ -258,6 +314,56 @@ h1 {
   background-color: #eee;
   padding: 1rem;
   margin-bottom: 2rem;
+}
+
+.more-info-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.more-info-buttons button {
+  background-size: 4rem;
+  background-repeat: none;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 1rem;
+}
+
+button.valorative {
+  background-image: url(../assets/icono-valorativas.png);
+}
+
+button.indicators {
+  background-image: url(../assets/icono-indicadores.png);
+}
+
+button.levels {
+  background-image: url(../assets/icono-niveles.png);
+}
+
+button.notes {
+  background-image: url(../assets/icono-notas.png);
+}
+
+.modal-body {
+  overflow: scroll;
+  max-height: 75vh;
+}
+
+.modal-buttons {
+  float: right;
+}
+
+.modal-buttons button {
+  background-size: 3rem;
+  background-repeat: none;
+  width: 3rem;
+  height: 3rem;
+  margin: 0 0.5rem;
+}
+
+.modal-buttons button:not(.active) {
+  filter: grayscale(100%);
 }
 
 .form-container {
