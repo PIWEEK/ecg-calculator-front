@@ -7,7 +7,9 @@
       <main-navbar section="matrix"></main-navbar>
     </div>
     <div class="row">
-      <h1>Matrix</h1>
+      <h1>Tu Matriz</h1>
+      <p>En esta pantalla podrás ver el resultado final de la matriz de tu organización,
+      una vez completados todos los datos.</p>
     </div>
   </div>
 </template>

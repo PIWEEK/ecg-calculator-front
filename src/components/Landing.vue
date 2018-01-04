@@ -3,18 +3,21 @@
     <img src="../assets/ebc.png" class="logo" />
     <div class="lead">
       <h1>La Calculadora del Bien Común</h1>
-      <p>Aquí viene un bonito párrafo indicando lo que mola el Balance del Bien Común,
+      <p>Aquí viene un párrafo indicando lo bonito que es el Balance del Bien Común,
       para que te animes a hacerte uno o a cargarlo aquí si ya lo tienes.</p>
       <p>Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a
       pellentesque nec, egestas non nisi.Nulla quis lorem ut libero malesuada feugiat.
       Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vestibulum ac
       diam sit amet quam vehicula elementum sed sit amet dui.</p>
+      <p><strong>ATENCIÓN: esto es un prototipo.</strong> Su única función es servir
+      como prueba de concepto, no es operativo aún ni representa la matriz real ni
+      los cuestionarios definitivos.</p>
       <b-button to="/login" size="lg" variant="primary">Empezar</b-button>
     </div>
     <div class="matrix">
       <h2>La Matriz del Bien Común 5.0</h2>
       <img src="../assets/matrix.png" />
-      <p>Y aquí otro texto dando más detalles de cómo va la matriz</p>
+      <p>Y aquí otro texto dando más detalles de cómo funciona la matriz.</p>
       <p>Donec sollicitudin molestie malesuada. Donec rutrum congue leo eget malesuada.
       Donec rutrum congue leo eget malesuada. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Lorem ipsum dolor sit amet, consectetur adipiscing elit.

@@ -22,13 +22,14 @@
           <b-form-group id="passwordGroup"
                         label="Introduce tu contraseña:"
                         label-for="password"
-                        description="Intenta que no sea una contraseña obvia.">
+                        description="Contacta con la organización para conseguir una contraseña.">
             <b-form-input id="password"
                           type="password"
                           v-model="form.password"
                           required>
             </b-form-input>
           </b-form-group>
+          <div v-if="invalidUser" class="invalid-user">Usuario o contraseña incorrecta</div>
           <b-button type="submit" variant="info">Entrar</b-button>
         </b-form>
       </div>
@@ -49,13 +50,18 @@ export default {
       form: {
         email: '',
         password: ''
-      }
+      },
+      invalidUser: false
     }
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      this.$router.push('/organization')
+      if (this.form.email === 'madrid@economia-del-bien-comun.es' && this.form.password === 'ebc') {
+        this.$router.push('/organization')
+      } else {
+        this.invalidUser = true
+      }
     }
   }
 }
@@ -73,5 +79,10 @@ export default {
   width: 800px;
   margin: 0 auto;
   padding: 3rem;
+}
+
+.invalid-user {
+  color: red;
+  margin-bottom: 1rem;
 }
 </style>
