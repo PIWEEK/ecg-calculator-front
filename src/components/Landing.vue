@@ -24,7 +24,7 @@
       Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Pellentesque in ipsum id orci porta dapibus.</p>
       <p>Cras ultricies ligula sed magna dictum porta. Vivamus suscipit tortor eget felis porttitor volutpat.</p>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
